@@ -37,10 +37,10 @@ const AddCustomer2 = ({ handleNext }) => {
   const [date2, setDate2] = useState(null)
 
   const inputDate1 = new Date(date)
-  const outputDate1 = new Date(inputDate1.setHours(inputDate1.getHours() + 3)).toISOString()
+  const outputDate1 = new Date(inputDate1.setHours(inputDate1.getHours() - 3)).toISOString()
 
   const inputDate2 = new Date(date2)
-  const outputDate2 = new Date(inputDate2.setHours(inputDate2.getHours() + 3)).toISOString()
+  const outputDate2 = new Date(inputDate2.setHours(inputDate2.getHours() - 3)).toISOString()
 
   const data = {
     firstname,
@@ -50,8 +50,8 @@ const AddCustomer2 = ({ handleNext }) => {
     calendarId,
     email,
     nextOfKin,
-    start: inputDate1,
-    end: inputDate2,
+    start: outputDate1,
+    end: outputDate2,
     summary: `${firstname} ${lastname} (${mobile})`,
     description: `Trip to mombasa, betty reservation. Id:${idNumber} next of kin:${nextOfKin} (${email}) `
   }
