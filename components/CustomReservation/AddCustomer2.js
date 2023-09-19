@@ -10,7 +10,7 @@ import { useState } from 'react'
 import { Button } from '@mui/material'
 import { toast, Toaster } from 'react-hot-toast'
 
-// ** Third Party Imports
+// ** Third Party Import
 import DatePicker from 'react-datepicker'
 
 // ** Third Party Styles Imports
