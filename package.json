@@ -12,8 +12,7 @@
     "build": "next build",
     "start": "next start",
     "export": "next export",
-    "lint": "eslint --fix \"src/**/*.{js,jsx}\"",
-    "format": "prettier --write \"src/**/*.{js,jsx}\""
+    "lint": "eslint"
   },
   "dependencies": {
     "@emotion/cache": "^11.6.0",
