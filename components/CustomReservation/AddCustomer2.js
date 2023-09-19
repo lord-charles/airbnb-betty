@@ -10,7 +10,17 @@ import { useState } from 'react'
 import { Button } from '@mui/material'
 import { toast, Toaster } from 'react-hot-toast'
 
-import { createColor } from 'src/features/color/colorService'
+// ** Third Party Imports
+import DatePicker from 'react-datepicker'
+
+// ** Third Party Styles Imports
+import 'react-datepicker/dist/react-datepicker.css'
+
+// ** Styled Components
+import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+import { forwardRef } from 'react'
+import axios from 'axios'
+import { base_url } from 'utils/baseUrl'
 
 const notify = message => toast.error(message)
 
@@ -22,7 +32,15 @@ const AddCustomer2 = ({ handleNext }) => {
   const [calendarId, setCalendarId] = useState('')
   const [email, setEmail] = useState('')
   const [nextOfKin, setNextOfKin] = useState('')
-  const [btnActive, setbtnActive] = useState(false)
+  const [btnActive, setbtnActive] = useState(true)
+  const [date, setDate] = useState(null)
+  const [date2, setDate2] = useState(null)
+
+  const inputDate1 = new Date(date)
+  const outputDate1 = new Date(inputDate1.setHours(inputDate1.getHours() + 3)).toISOString()
+
+  const inputDate2 = new Date(date2)
+  const outputDate2 = new Date(inputDate2.setHours(inputDate2.getHours() + 3)).toISOString()
 
   const data = {
     firstname,
@@ -31,10 +49,44 @@ const AddCustomer2 = ({ handleNext }) => {
     idNumber,
     calendarId,
     email,
-    nextOfKin
+    nextOfKin,
+    start: inputDate1,
+    end: inputDate2,
+    summary: `${firstname} ${lastname} (${mobile})`,
+    description: `Trip to mombasa, betty reservation. Id:${idNumber} next of kin:${nextOfKin} (${email}) `
   }
 
-  const handleNextPage = () => {}
+  const CustomInput = forwardRef((props, ref) => {
+    return <TextField inputRef={ref} label='Start Time' {...props} />
+  })
+
+  const CustomInput2 = forwardRef((props, ref) => {
+    return <TextField inputRef={ref} label='End Time' {...props} />
+  })
+
+  const handleSubmit = async () => {
+    setbtnActive(false)
+
+    try {
+      const res = await axios.post(`${base_url}user/register`, data)
+
+      if (res.data.message === 'User created') {
+        toast.success('New user registered')
+        const res2 = await axios.post(`${base_url}google/schedule-event`, data)
+        res2.status === 200 ? toast.success('Event created successfully') : toast.error('Something went wrong')
+
+        setbtnActive(true)
+      }
+    } catch (err) {
+      if (err.response.data.message === 'User already exists') {
+        toast.success('Existing user')
+        const res2 = await axios.post(`${base_url}google/schedule-event`, data)
+        console.log(res2)
+        res2.status === 200 ? toast.success('Event created successfully') : toast.error('Something went wrong')
+        setbtnActive(true)
+      }
+    }
+  }
 
   return (
     <>
@@ -106,6 +158,42 @@ const AddCustomer2 = ({ handleNext }) => {
             onChange={event => setEmail(event.target.value)}
           />
         </Grid>
+
+        <Grid item xs={12} sm={6} className='py-[20px] gap-x-1 flex'>
+          <DatePickerWrapper>
+            <DatePicker
+              selected={date}
+              showYearDropdown
+              showMonthDropdown
+              showTimeSelect
+              timeFormat='HH:mm'
+              timeIntervals={15}
+              timeCaption='Time'
+              dateFormat='MM-dd-yyyy h:mm aa'
+              id='account-settings-date'
+              placeholderText='MM-DD-YYYY hh:mm AM/PM'
+              customInput={<CustomInput />}
+              onChange={date => setDate(date)}
+            />
+          </DatePickerWrapper>
+
+          <DatePickerWrapper>
+            <DatePicker
+              selected={date2}
+              showYearDropdown
+              showMonthDropdown
+              showTimeSelect
+              timeFormat='HH:mm'
+              timeIntervals={15}
+              timeCaption='Time'
+              dateFormat='MM-dd-yyyy h:mm aa'
+              id='account-settings-date'
+              placeholderText='MM-DD-YYYY hh:mm AM/PM'
+              customInput={<CustomInput2 />}
+              onChange={date => setDate2(date)}
+            />
+          </DatePickerWrapper>
+        </Grid>
         <Grid item xs={12} md={8} marginTop={3} marginBottom={2}>
           <Autocomplete
             id='multiple-select'
@@ -143,6 +231,7 @@ const AddCustomer2 = ({ handleNext }) => {
           sx={{ alignItems: 'center', ml: 25 }}
           sm={{ mt: 3, ml: 1 }}
           disabled={btnActive ? false : true}
+          onClick={() => handleSubmit()}
         >
           {btnActive ? 'Add Details' : 'please wait...'}
         </Button>
