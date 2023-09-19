@@ -1,12 +1,7 @@
 import React from 'react'
-import { AddBrand } from 'components'
 
 const index = () => {
-  return (
-    <div>
-      <AddBrand />
-    </div>
-  )
+  return <div></div>
 }
 
 export default index
