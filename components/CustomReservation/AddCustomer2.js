@@ -140,7 +140,6 @@ const AddCustomer2 = ({ handleNext }) => {
         />
         <Button
           variant='contained'
-          // onClick={handleAddProductDetails}
           sx={{ alignItems: 'center', ml: 25 }}
           sm={{ mt: 3, ml: 1 }}
           disabled={btnActive ? false : true}
