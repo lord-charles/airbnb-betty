@@ -76,10 +76,13 @@ const AddCustomer2 = ({ handleNext }) => {
         res2.status === 200 ? toast.success('Event created successfully') : toast.error('Something went wrong')
 
         setbtnActive(true)
+      } else {
+        toast.error('something went wrong')
+        setbtnActive(true)
       }
       setbtnActive(true)
 
-      console.log(res.data)
+      // console.log(res.data)
     } catch (err) {
       if (err.response.data.message === 'User already exists') {
         toast.success('Existing user')
