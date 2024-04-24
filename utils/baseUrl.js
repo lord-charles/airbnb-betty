@@ -1,1 +1,1 @@
-export const base_url = 'https://agile-yak-sun-hat.cyclic.cloud/'
+export const base_url = 'https://api.ellahomeske.com/'

@@ -28,6 +28,7 @@ const AddCustomer2 = ({ handleNext }) => {
   const [firstname, setfirstName] = useState('')
   const [lastname, setlastname] = useState('')
   const [mobile, setMobile] = useState('')
+  const [password, setPassword] = useState('')
   const [idNumber, setIdNumber] = useState('')
   const [calendarId, setCalendarId] = useState('')
   const [email, setEmail] = useState('')
@@ -48,6 +49,7 @@ const AddCustomer2 = ({ handleNext }) => {
     mobile,
     idNumber,
     calendarId,
+    password,
     email,
     nextOfKin,
     start: outputDate1,
@@ -75,9 +77,6 @@ const AddCustomer2 = ({ handleNext }) => {
         const res2 = await axios.post(`${base_url}google/schedule-event`, data)
         res2.status === 200 ? toast.success('Event created successfully') : toast.error('Something went wrong')
 
-        setbtnActive(true)
-      } else {
-        toast.error('something went wrong')
         setbtnActive(true)
       }
       setbtnActive(true)
@@ -160,7 +159,7 @@ const AddCustomer2 = ({ handleNext }) => {
             id='Email address'
             label='Email address'
             variant='standard'
-            helperText='optional'
+            helperText='unique'
             value={email}
             onChange={event => setEmail(event.target.value)}
           />
@@ -201,7 +200,7 @@ const AddCustomer2 = ({ handleNext }) => {
             />
           </DatePickerWrapper>
         </Grid>
-        <Grid item xs={12} md={8} marginTop={3} marginBottom={2}>
+        <Grid item xs={12} sm={6} className='py-[20px] gap-x-1 flex'>
           <Autocomplete
             id='multiple-select'
             sx={{ width: 300 }}
@@ -224,6 +223,14 @@ const AddCustomer2 = ({ handleNext }) => {
               />
             )}
             onChange={(event, value) => setCalendarId(value.calId)}
+          />
+          <TextField
+            required
+            id='Password'
+            label='Password'
+            variant='outlined'
+            value={password}
+            onChange={event => setPassword(event.target.value)}
           />
         </Grid>
       </Grid>
