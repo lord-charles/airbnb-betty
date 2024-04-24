@@ -143,7 +143,8 @@ const Index = () => {
               addDetails(details)
               setDisable(false)
               setTimeout(() => {
-                router.push('/Home')
+                // router.push('/Home')
+                router.push('https://wifi.classicresidence.co.ke/')
               }, 4000)
             }
           } catch (error) {
@@ -186,7 +187,7 @@ const Index = () => {
               }}
               className='text-center'
             >
-              Ella Homes Admin panel
+              Classics Admin panel
             </Typography>
           </Box>
           <Box sx={{ mb: 6 }}>
