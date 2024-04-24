@@ -144,7 +144,7 @@ const Index = () => {
               setDisable(false)
               setTimeout(() => {
                 // router.push('/Home')
-                router.push('https://wifi.classicresidence.co.ke/')
+                router.push('https://wifi.classicresidence.co.ke/dashboard')
               }, 4000)
             }
           } catch (error) {
